@@ -1,0 +1,705 @@
+                   ATM SYSTEM
+     USE CASE….
+ 
+
+           Interface:-contains login and Registaration.
+          Login:-If the user has an account then input his Id and password.
+          Registaration :-If not the user will registare with new account.
+          Input user info:-The user will input his info (name,Id,password,money).
+          Withdrow:The user withdrow an amount from his account if the user ask an
+           Amount that greater than his amount the system will tell him.
+           Deposit:-The user Deposit an amount in his account .
+           Transfare:-The user transfare an amount from his account to another         
+           Account(second user) this operation contains withdrow and Deposit .
+           Togather.
+home page
+<html>
+<head>
+<link  rel="stylesheet" href="css/style.css"    />
+<style>
+	h1
+	{
+		
+		color:white;
+
+	
+	}
+	
+	h2
+	{
+		
+		color:white;
+	
+	}
+	</style>
+	
+
+</head>
+<body>
+
+
+<div class="ter1">
+<center>
+
+<marquee><h1>WELCOME INTO ATM </h1></marquee><br>
+<h2>input your ID</h2>
+
+<form method='post' action='testing.php'>
+	<input type='post' name='pin'  style="background:#eddede ; width:200px;height:50px"><br><br>
+
+	       <h2>input your password<h2>                                      <input type='password' name='pass'  style="background:#eddede ; width:200px;height:50px"><br><br>
+	
+ 	<input type="submit" value="login"style="background:##696969  ; width:150px;height:50px;color:black;border: 3px solid #555;">
+</form> 
+
+<br><br>
+
+<form method='post' action='rej.php'>	
+ 	<input type="submit" value="rej"style="background:##696969  ; width:150px;height:50px;color:black;border: 3px solid #555;">
+</form> 
+
+
+
+
+<?php
+if(isset($_GET['id']))
+{
+	$id=$_GET['id'];
+	if($id==1)
+	 echo "<script> window.alert('invalid ID or password '); </script>"; 
+	 $id=0;
+
+}
+
+
+
+?>
+</center>
+</div>
+</body>
+</html>
+///////////////////////////////////////////////////////////////////////////////
+testing for home page
+
+<html>
+<head>
+</head>
+<body>
+
+
+
+<?php
+$con=new mysqli("localhost","root","");
+$sqe=mysqli_query($con,"USE ATM");
+
+$pin=$_POST['pin'];
+$pass=$_POST['pass'];	
+
+$query=mysqli_query($con,"select ID from atm1 where id=".$pin." and password=".$pass."");
+$row=mysqli_num_rows($query);
+    
+     if($row)
+		header("location:INF.php?id=$pin");
+    else 
+    {
+   
+    header("location:home.php?id=1");
+    }		     
+
+?>
+
+
+</body>
+
+</html>
+//////////////////////////////////////////////////////////////////////////////
+INF page(interface)
+ <html>
+<head>
+<style>
+h1
+{
+	color:white;	
+}
+</style>
+
+
+<link  rel="stylesheet" href="css/style.css"    />
+</head>
+<body>
+<div class="ter1">
+
+<center>
+ 
+<marquee><h1>WELCOME INTO ATM </h1></marquee>
+ 
+ <?php
+ 
+ $con=new mysqli("localhost","root","");
+$sqe=mysqli_query($con,"USE ATM");
+
+  $pin=$_GET['id'];
+
+echo"<br><br>";
+echo '<a href="information.php?idd='.$pin.'"><button  style="background:##696969  ; width:150px;height:50px;color:black;border: 3px solid #555;">Display Informaion</button></a><br><br><br>';
+
+ echo '<a href="deposit.php?idd='.$pin.'"><button  style="background:##696969  ; width:150px;height:50px;color:black;border: 3px solid #555;">Deposit Money</button></a><br><br><br>';
+
+ echo '<a href="with.php?idd='.$pin.'"><button  style="background:##696969  ; width:150px;height:50px;color:black;border: 3px solid #555;">withdrowl Money</button></a><br><br><br>';
+
+ echo '<a href="tran.php?idd='.$pin.'"><button  style="background:##696969  ; width:150px;height:50px;color:black;border: 3px solid #555;">transfer Money</button></a><br><br>';
+  echo '<a href="delete.php?idd='.$pin.'"><button  style="background:##696969  ; width:150px;height:50px;color:black;border: 3px solid #555;">Delete your account</button></a><br><br>';
+
+ ?>
+<br> 
+ <a href="home.php"><button  style="background:##696969  ; width:150px;height:50px;color:black;border: 3px solid #555;">EXIT</button></a><br><br>
+
+ </center>
+ </div>
+</body>
+</html>
+//////////////////////////////////////////////////////////////////////////////////
+tran page (transfer)
+<html>
+<head>
+<script>
+function showHint(str) {
+    if (str.length == 0) { 
+        document.getElementById("txtHint").innerHTML = "";
+        return;
+    } else {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("txtHint").innerHTML = this.responseText;
+            }
+        };
+        xmlhttp.open("GET", "agax.php?q=" + str, true);
+        xmlhttp.send();
+    }
+}
+</script>
+<style>
+	body
+	{
+		background-color:#4682B4;
+		width:500px;
+	    height:400px;
+	//background-image:url(css/zzz.png);
+
+	}
+		
+	h1
+	{
+		
+	color:white;	
+	}
+	
+	h2
+	{
+		color:white;
+			
+	}
+	p
+	{
+	color:white;
+	font-size:30;
+	}
+	
+
+</style>
+<link  rel="stylesheet" href="css/style.css"    />
+</head>
+<body  class="ter1">
+
+<div >
+<center>
+<marquee><h1>WELCOME INTO ATM </h1></marquee>
+
+<?php
+
+if(isset($_GET['id']))
+{
+	$id=$_GET['id'];
+	if($id==1)
+	{
+	 echo "<script> window.alert('the money you want transfer is greater than your amount'); </script>"; 
+	  $pin=$_GET['idd'];
+	  }
+	 if($id==2)
+	 {
+	 $money2=$_GET['money'];
+	 echo "<script> window.alert('your amount  after change is '+$money2); </script>"; 		   
+	 $pin=$_GET['idd'];
+	 }
+
+}
+
+
+
+
+$pin=$_GET['idd'];
+
+
+echo"<form method='post' action='change.php?pin=$pin'>
+<h2>input amount you want to sending</h2><br>
+   <input type='number' name='money'  style='background:#eddede ; width:200px;height:50px'><br><br><br><br>
+   <h2>input ID of second user</h2><br>
+   <input type='number' name='pinn2' onkeyup='showHint(this.value)' style='background:#eddede ; width:200px;height:50px'><br><br><br><br><br>";
+    echo'<p id="txtHint"></p>';
+   echo"<input type='submit' value='transfer' name='insert' style='background:##696969  ; width:150px;height:50px;color:black;border: 3px solid #555;'>
+</form>";
+
+ echo "<a href='INF.php?id=$pin'><button  style='background:##696969  ; width:150px;height:50px;color:black;border: 3px solid #555;'>return to interface</button></a><br><br>";
+
+?>
+ <a href="home.php"><button  style="background:##696969  ; width:150px;height:50px;color:black;border: 3px solid #555;">EXIT</button></a><br><br>
+
+
+</div>
+</center>
+</body>
+</html>
+////////////////////////////////////////////////////////////////////////////
+change page test for tran page
+
+
+<html>
+<head>
+</head>
+<body>
+
+<?php
+
+$con=new mysqli("localhost","root","");
+$sqe=mysqli_query($con,"USE ATM");
+
+
+
+$pin=$_GET['pin'];
+$money1=$_POST['money'];
+$pin2=$_POST['pinn2'];
+
+
+    $oo=mysqli_query($con,"select money from atm1 where ID='$pin';");
+   $amount;
+   while($row=mysqli_fetch_row($oo))
+   {
+
+      $amount=$row[0];
+	 // echo "amount is = ".$amount."<br>".$money1;
+   }
+
+if($amount>$money1)
+{
+
+	$money2=$amount-$money1;
+
+			 mysqli_query($con,"UPDATE atm1 SET money='$money2' WHERE ID='$pin';");
+			/////////////////////////////////////////////////////////////////////////////////////////////////
+			  
+	$oo=mysqli_query($con,"select money from atm1 where ID='$pin2';");
+	if(mysqli_num_rows($oo)!=1)
+	{		
+	
+	die('<center><h3>the password of second user is invalid!!!!!!!!!!! </h3><br><br><a href="tran.php?idd='.$pin.'"><button  style="background:##696969  ; width:150px;height:50px;color:white;border: 3px solid #555;">return</button></a><br><br>
+	<a href="home.php"><button  style="background:##696969  ; width:150px;height:50px;color:white;border: 3px solid #555;">EXIT</button></a><br><br></center>');
+	
+	}
+
+
+	   $mo;
+
+		while($row=mysqli_fetch_row($oo))
+		{
+			//echo "<h2>Money is = ".$row[0]."</h2>";
+			$mo=$row[0];
+		}
+						
+			$money3=$mo+$money1;
+		  mysqli_query($con,"UPDATE atm1 SET money='$money3' WHERE ID='$pin2';");
+		  header("location:tran.php?id=2&idd=$pin&money=$money2");
+			//echo "<script> window.alert('the money  after change is '+$money2); </script>"; 		    
+}
+else
+{
+header("location:tran.php?id=1&idd=$pin");
+}
+/*
+echo' <a href="tran.php?idd=$pin"><button  style="background:#111111 ; width:150px;height:50px;color:white;border: 3px solid #555;">click to return to transfer moner</button></a><br><br>
+ <a href="INF.php?id='.$pin.'"><button  style="background:#111111 ; width:150px;height:50px;color:white;border: 3px solid #555;">click to return to interface</button></a><br><br>
+<a href="home.php"><button  style="background:#111111 ; width:150px;height:50px;color:white;border: 3px solid #555;">EXIT</button></a><br><br>';
+
+*/
+?>
+<center>
+
+</center>
+
+</body>
+
+</html>
+////////////////////////////////////////////////////////////////////////////////////
+deposit page
+<html>
+<head>
+<link  rel="stylesheet" href="css/style.css"    />
+<style>
+	h1
+	{
+		
+	color:white;
+	
+	}
+	
+	h2
+	{
+		color:white;
+		
+
+	
+	}
+   body
+	{
+	background:#4682B4;
+	background-image:url("Capture.PNG")
+
+	}
+	</style>
+
+</head>
+<body>
+<div class="ter1">
+<center>
+<marquee><h1>WELCOME INTO ATM </h1></marquee>
+
+<?php
+$con=new mysqli("localhost","root","");
+$sqe=mysqli_query($con,"USE ATM");
+
+echo"<br><br><br><br><br><br><br><br>";
+
+ $pin2=$_GET['idd'];
+
+ echo "<center>"."<h2>input amount you want to add for your money</h2>"."<form method='post' action='deposit.php?idd=$pin2'>". " <input type='number' name='mon1' style='background:#eddede ; width:200px;height:50px' ><br>";
+  echo "<br><input type='submit'/value='Add Money'  style='background:##696969  ; width:150px;height:50px;color:black;border: 3px solid #555;'>"."</form>"."</center>"; 
+  
+   if(isset($_POST['mon1']))
+   {
+		$pin4=$_POST['mon1'];
+   }
+   //////////////////////////////////////////////////////////////////////////////
+    $oo=mysqli_query($con,"select money from atm1 where ID='$pin2';");
+   $mo;
+   while($row=mysqli_fetch_row($oo))
+   {
+
+      $mo=$row[0];
+   }
+
+if(isset($pin4))
+{
+$money2=$mo+$pin4;
+
+  }
+  if(isset($money2))
+  {
+         mysqli_query($con,"UPDATE atm1 SET money='$money2' WHERE ID='$pin2';");
+         echo "<script> window.alert('your money after change is : '+$money2+'$'); </script>"; 
+  }
+  
+  echo "<a href='home.php'><button  style='background:##696969  ; width:150px;height:50px;color:black;border: 3px solid #555;'>EXIT </button></a><br><br>";
+ 
+ echo "<a href='INF.php?id=$pin2'><button  style='background:##696969  ; width:150px;height:50px;color:black;border: 3px solid #555;'>return to interface</button></a><br><br>";
+
+
+ 
+?>
+
+</center>
+</div>
+</body>
+</html>
+/////////////////////////////////////////////////////////////////////////////////////
+with page (withdrowal )
+<html>
+<head>
+<link  rel="stylesheet" href="css/style.css"    />
+<style>
+	h1
+	{
+		
+	color:white;	
+
+	
+	}
+	
+	h2
+	{
+		color:white;
+		
+
+	
+	}
+	body
+	{
+	background:#4682B4;
+	background-image:url("Capture.PNG")
+
+	}
+	h3
+	{
+	color:#ff0000
+	}
+	</style>
+	
+</head>
+<body>
+
+
+<div class="ter1">
+<center>
+<marquee><h1>WELCOME INTO ATM </h1></marquee>
+<br>
+
+<?php
+$con=new mysqli("localhost","root","");
+$sqe=mysqli_query($con,"USE ATM");
+echo"<br><br><br><br><br><br>";
+
+
+ $pin2=$_GET['idd'];
+  
+ echo "<center>"."<h2>input amount you want withdrowl</h2>"."<form method='post' action='with.php?idd=$pin2'>". " <input type='number' name='mon1'  style='background:#eddede ; width:200px;height:50px'><br>";
+  echo "<br><input type='submit'/value='withdrowl Money'  style='background:##696969  ; width:150px;height:50px;color:black;border: 3px solid #555;'>"."</form>"."</center>"; 
+  
+   if(isset($_POST['mon1']))
+   {
+		$pin4=$_POST['mon1'];
+	
+   
+   }
+    $oo=mysqli_query($con,"select money from atm1 where ID='$pin2';");
+   $mo;
+
+	while($row=mysqli_fetch_row($oo))
+	{
+		
+		$mo=$row[0];
+	}
+
+if(isset($pin4))
+{
+		if($mo<$pin4+10)
+		 echo "<script> window.alert(' The money you want take is greater than your amount'); </script>"; 
+		else
+		{
+		$money2=$mo-$pin4;
+	  mysqli_query($con,"UPDATE atm1 SET money='$money2' WHERE ID='$pin2';");
+	  echo "<script> window.alert('your money after withdroul is = '+$money2+'$'); </script>"; 		  
+		  }
+ 
+ }
+ echo "<a href='home.php'><button  style='background:##696969  ; width:150px;height:50px;color:black;border: 3px solid #555;'>EXIT</button></a><br><br>";
+ 
+ echo "<a href='INF.php?id=$pin2'><button  style='background:##696969  ; width:150px;height:50px;color:black;border: 3px solid #555;'>return to interface</button></a><br><br>";
+
+
+?>
+</center>
+</div>
+</body>
+</html>
+//////////////////////////////////////////////////////////////////////////////////////
+rej page (rejestration)
+
+<html>
+<head>
+<link  rel="stylesheet" href="css/style.css"    />
+<style>
+	h1
+	{
+		
+	color:white;
+	}
+	
+	h2
+	{
+		color:white;
+		
+
+	
+	}
+	</style>
+
+</head>
+<body>
+<div class="ter1">
+<center>
+<marquee><h1>WELCOME INTO ATM </h1></marquee>
+<br>
+<h2>INPUT YOUR INFORMATION </h2>
+
+
+
+<?php
+ $con=new mysqli("localhost","root","");
+$sqe=mysqli_query($con,"USE ATM");
+
+
+ echo"<center>". "<h2>input ID</h2>"."<form method='post' action='rej.php'>". ' <input type="number" name="id1"  min=100000 style="background:#dddddd ; width:200px;height:50px"> <br>';
+ echo "<h2>input name</h2>"."<form method='post' action='rej.php'>". " <input type='post' name='name1'  style='background:#dddddd ; width:200px;height:50px'><br>";
+ echo "<h2>input money</h2>"."<form method='post' action='rej.php'>". " <input type='number' name='salary1'  min=10 style='background:#dddddd ; width:200px;height:50px'><br>";
+  echo "<h2>input passsword</h2>"."<form method='post' action='rej.php'>". " <input type='number' name='build2' min=100000  style='background:#dddddd; width:200px;height:50px'><br><br>";
+  
+  echo "<input type='submit'/ name ='insert' value='ADD'  style='background:##696969 ; width:150px;height:50px;color:black;border: 4px solid #888;'>"."</form>"."</center>"; 
+ 
+ 
+if(isset($_POST['insert']))
+{
+	$tt1=$_POST['id1'];
+	$tt2=$_POST['name1'];
+	$tt3=$_POST['salary1'];
+	$tt44=$_POST['build2'];
+	  
+ /*    if(strlen($tt1)<6||strlen($tt44)<6)
+	 {
+	echo "<script> window.alert('the ID or password is invalid  because it is small the must larger than 6 numbers'); </script>";	
+	}
+	else
+	{*/
+	$check=mysqli_query($con,"insert into atm1 values('$tt1','$tt2','$tt3','$tt44')");
+	
+	
+	if($check)
+	 echo "<script> window.alert('the rej. is done '); </script>"; 
+	 else 
+	 echo "<script> window.alert('the ID or password is alrady used from another user'); </script>";
+	 //}
+}
+
+?>
+ <a href="home.php"><button  style="background:#	#696969 ; width:150px;height:50px;color:black;border: 4px solid #888;">EXIT</button></a><br><br>
+
+</center>
+</div>
+</body>
+</html>
+////////////////////////////////////////////////////////////////////////////////////////
+information page 
+
+<html>
+<head>
+
+
+<style>
+	h3
+	{
+	color:#ff0000;
+	}
+	body
+	{
+	background:#cdcdcd;
+	}
+	h1
+	{
+	
+	color:white;
+	}
+	
+	</style>
+	<link  rel="stylesheet" href="css/style.css"    />
+</head>
+<body>
+
+<center>
+<div class="ter1">
+<marquee><h1>WELCOME INTO ATM </h1></marquee><br>
+<?php
+
+$pin=$_GET['idd'];
+
+
+
+$con=new mysqli("localhost","root","");
+$sqe=mysqli_query($con,"USE atm");
+
+
+ $oo=mysqli_query($con,"select * from atm1 where ID=$pin");
+
+ echo "<br><br><br><br><br><br><br><br><table border='3' width='80%' style='background:cyan ;'>";
+	while($row=mysqli_fetch_row($oo))
+	{
+	echo "<tr><td><h3> your ID : ".$row[0]."</h3></td><td><h3> your name  : ".$row[1]."</h3></td><td><h3> your money : ".$row[2]."$</h3></td><td><h3> your password : ".$row[3]."</h3></td></tr>";
+		
+	}
+echo"</table>";
+echo"<br><br><br>";
+
+ 
+ echo "<a href='INF.php?id=$pin'><button  style='background:##696969  ; width:150px;height:50px;color:black;border: 3px solid #555;'>return to interface</button></a><br><br>";
+echo "<a href='home.php'><button  style='background:##696969  ; width:150px;height:50px;color:black;border: 3px solid #555;'>EXIT</button></a><br><br>";
+
+?>
+</div>
+</center>
+
+</body>
+</html>
+/////////////////////////////////////////////////////////////////////////////////////////////
+delete page 
+
+<html>
+<head>
+
+
+<style>
+	h3
+	{
+	color:#ff0000;
+	}
+	body
+	{
+	background:#cdcdcd;
+	}
+	h1
+	{
+	
+	color:white;
+	}
+	
+	</style>
+	
+</head>
+<body>
+
+<center>
+<marquee><h1>WELCOME INTO ATM </h1></marquee><br>
+<?php
+
+$pin=$_GET['idd'];
+
+
+
+$con=new mysqli("localhost","root","");
+$sqe=mysqli_query($con,"USE atm");
+
+$oo=mysqli_query($con,"select money from atm1 where ID='.$pin.';");
+
+	while($row=mysqli_fetch_row($oo))
+	{
+		echo"this is your money"+$row[0];	
+	}
+
+ $oo=mysqli_query($con,"delete  from atm1 where ID=$pin");
+if($oo)
+echo"the delete is done ";
+
+
+?>
+<a href="home.php"><button  style="background:#	#696969 ; width:150px;height:50px;color:black;border: 4px solid #888;">finish</button></a><br><br>
+
+</center>
+
+</body>
+</html>
