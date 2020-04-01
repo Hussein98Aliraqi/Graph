@@ -1,0 +1,20 @@
+#include <stdio.h> 
+#include <sys/types.h> 
+#include <unistd.h> 
+  
+void fork_divition() 
+{ 
+    int z=10; 
+  printf("z is = %d\n",z);
+    if (fork() == 0) 
+        printf("Child z = %d\n", z/2); 
+    else if(fork()>0)
+        printf("Parent z = %d\n", z*2); 
+    else if(fork()<0)
+        printf("error");
+} 
+int main() 
+{ 
+   fork_divition();
+    return 0; 
+} 
