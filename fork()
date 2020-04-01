@@ -1,3 +1,4 @@
+//first task fork()....................
 #include <stdio.h> 
 #include <sys/types.h> 
 #include <unistd.h> 
@@ -18,3 +19,45 @@ int main()
    fork_divition();
     return 0; 
 } 
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//second task : exec()............
+
+//hussein.c
+
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+int main(int argc, char *argv[])
+{int x=10;
+    printf("We are in Hussein.c\n");
+    printf("PID of hussein.c = %d\n", getpid());
+    x=x+20;
+    printf("x is = %d\n",x);
+    return 0;
+}
+
+//khudiar.c
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+int main(int argc, char *argv[])
+{int x=10;
+    printf("We are in khudiar.c\n");
+    printf("PID of khudiar.c = %d\n", getpid());
+    printf("x in second program = %d",x);    
+    return 0;
+}
+
+//sorry,i can not take screenshot of this excution becuase i can not started my linux
+we calling by :
+ubintu..(any thing)...$gcc -o hussein hussein.c
+ubintu..(any thing)...$gcc -o khudiar khudiar.c
+ubintu..(any thing)...$./hussein
+We are in Hussien.c
+PID of hussein.c = number//number has equals the process id we take from getpid()
+We are in khudiar.c
+PID of khudiar.c = number//number is the Same number as above because processor interrupt excution of hussein program and start excution khudiar program 
+x in second program = 10
+//end  
+
